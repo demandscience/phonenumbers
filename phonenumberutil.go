@@ -10,10 +10,10 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/nyaruka/phonenumbers/v2/internal/character"
-	"github.com/nyaruka/phonenumbers/v2/internal/regexcache"
-	"github.com/nyaruka/phonenumbers/v2/internal/stringbuilder"
-	"github.com/nyaruka/phonenumbers/v2/metadata"
+	"github.com/demandscience/phonenumbers/v2/internal/character"
+	"github.com/demandscience/phonenumbers/v2/internal/regexcache"
+	"github.com/demandscience/phonenumbers/v2/internal/stringbuilder"
+	"github.com/demandscience/phonenumbers/v2/metadata"
 	"google.golang.org/protobuf/proto"
 )
 

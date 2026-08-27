@@ -8,9 +8,9 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/nyaruka/phonenumbers/v2/internal/character"
-	"github.com/nyaruka/phonenumbers/v2/internal/regexcache"
-	"github.com/nyaruka/phonenumbers/v2/internal/stringbuilder"
+	"github.com/demandscience/phonenumbers/v2/internal/character"
+	"github.com/demandscience/phonenumbers/v2/internal/regexcache"
+	"github.com/demandscience/phonenumbers/v2/internal/stringbuilder"
 	"google.golang.org/protobuf/proto"
 )
 

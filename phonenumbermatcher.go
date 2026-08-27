@@ -8,8 +8,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/nyaruka/phonenumbers/v2/internal/regexcache"
-	"github.com/nyaruka/phonenumbers/v2/internal/stringbuilder"
+	"github.com/demandscience/phonenumbers/v2/internal/regexcache"
+	"github.com/demandscience/phonenumbers/v2/internal/stringbuilder"
 )
 
 // limit returns a regular expression quantifier with a lower and upper bound.
