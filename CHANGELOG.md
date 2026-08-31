@@ -1,3 +1,9 @@
+v2.0.10 (2026-08-31)
+-------------------------
+ * Prepend country calling code when formatting unparseable numbers as E164 from default country
+ * Align national significant number leading zero cap with upstream
+ * Use character counting instead of regex for alpha number detection
+
 v2.0.9 (2026-08-31)
 -------------------------
  * Update metadata
