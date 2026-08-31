@@ -1,3 +1,8 @@
+v2.0.11 (2026-08-31)
+-------------------------
+ * Bump supported go versions
+ * Unpin golang.org/x/text now that the go directive is 1.25
+
 v2.0.10 (2026-08-31)
 -------------------------
  * Prepend country calling code when formatting unparseable numbers as E164 from default country
