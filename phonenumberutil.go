@@ -829,15 +829,20 @@ func hasValidCountryCallingCode(countryCallingCode int) bool {
 // formatting rules to apply so we return the national significant number
 // with no formatting applied.
 func Format(number *PhoneNumber, numberFormat PhoneNumberFormat) string {
-	if number.GetNationalNumber() == 0 && len(number.GetRawInput()) > 0 {
-		// Unparseable numbers that kept their raw input just use that.
-		// This is the only case where a number can be formatted as E164
-		// without a leading '+' symbol (but the original number wasn't
-		// parseable anyway).
-		// TODO: Consider removing the 'if' above so that unparseable
-		// strings without raw input format to the empty string instead of "+00"
+	if number.GetNationalNumber() == 0 {
+		// Unparseable numbers that kept their raw input just use that, unless default country was
+		// specified and the format is E164. In that case, we prepend the raw input with the country
+		// code
 		rawInput := number.GetRawInput()
-		if len(rawInput) > 0 {
+		if len(rawInput) > 0 &&
+			number.CountryCode != nil &&
+			number.GetCountryCodeSource() == PhoneNumber_FROM_DEFAULT_COUNTRY &&
+			numberFormat == E164 {
+			countryCallingCode := int(number.GetCountryCode())
+			formattedNumber := stringbuilder.NewString(rawInput)
+			prefixNumberWithCountryCallingCode(countryCallingCode, numberFormat, formattedNumber)
+			return formattedNumber.String()
+		} else if len(rawInput) > 0 || number.CountryCode == nil {
 			return rawInput
 		}
 	}
@@ -1459,22 +1464,15 @@ func FormatOutOfCountryKeepingAlphaChars(
 // national significant number doesn't contain a national prefix or
 // any formatting.
 func GetNationalSignificantNumber(number *PhoneNumber) string {
-	// If leading zero(s) have been set, we prefix this now. Note this
-	// is not a national prefix.
+	// If leading zero(s) have been set, we prefix this now. Note this is not a national prefix.
+	// Defensively cap the number of leading zeros to avoid OOM from malicious input.
 	nationalNumber := stringbuilder.New(nil)
-	// Guard GetNumberOfLeadingZeros() > 0 to match upstream and to avoid a
-	// make([]byte, n) panic on a negative count (an invalid but possible input).
 	if number.GetItalianLeadingZero() && number.GetNumberOfLeadingZeros() > 0 {
-		// Clamp to maxLengthForNSN before allocating: a legitimate national
-		// significant number can never have more leading zeros than its maximum
-		// total length. The field is an int32 that can carry an arbitrary
-		// attacker-controlled value when a PhoneNumber is populated from an
-		// untrusted source rather than produced by Parse, so bound it here.
-		numLeadingZeros := int(number.GetNumberOfLeadingZeros())
-		if numLeadingZeros > maxLengthForNSN {
-			numLeadingZeros = maxLengthForNSN
+		numberOfLeadingZeros := int(number.GetNumberOfLeadingZeros())
+		if numberOfLeadingZeros > 10 {
+			numberOfLeadingZeros = 10
 		}
-		zeros := make([]byte, numLeadingZeros)
+		zeros := make([]byte, numberOfLeadingZeros)
 		for i := range zeros {
 			zeros[i] = '0'
 		}
@@ -2080,6 +2078,20 @@ func IsNANPACountry(regionCode string) bool {
 	return metadata.IsNANPARegion(regionCode)
 }
 
+func hasAtLeastThreeAlphaChars(number string) bool {
+	alphaCount := 0
+	for i := 0; i < len(number); i++ {
+		c := number[i]
+		if (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') {
+			alphaCount++
+			if alphaCount >= 3 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // Checks if the number is a valid vanity (alpha) number such as 800
 // MICROSOFT. A valid vanity number will start with at least 3 digits and
 // will have three or more alpha characters. This does not do
@@ -2087,6 +2099,9 @@ func IsNANPACountry(regionCode string) bool {
 // for a region, it should be parsed and methods such as
 // IsPossibleNumberWithReason() and IsValidNumber() should be used.
 func IsAlphaNumber(number string) bool {
+	if len(number) > maxInputStringLength {
+		return false
+	}
 	if !isViablePhoneNumber(number) {
 		// Number is too short, or doesn't match the basic phone
 		// number pattern.
@@ -2094,7 +2109,7 @@ func IsAlphaNumber(number string) bool {
 	}
 	strippedNumber := stringbuilder.NewString(number)
 	maybeStripExtension(strippedNumber)
-	return validAlphaPhonePattern.MatchString(strippedNumber.String())
+	return hasAtLeastThreeAlphaChars(strippedNumber.String())
 }
 
 // Convenience wrapper around IsPossibleNumberWithReason(). Instead of
