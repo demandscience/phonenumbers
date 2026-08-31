@@ -12,7 +12,7 @@ procedure is not duplicated here.
 
 ## Code reconciled against
 
-- **v9.0.31**
+- **v9.0.38**
 
 This is the upstream release whose **Java logic** the Go code is reconciled against. It is
 tracked separately from the embedded **metadata** version — recorded in the generated
@@ -32,11 +32,6 @@ Places where this port intentionally differs from upstream:
   start marker when it precedes the phone-context, keeping the substring bounds well-ordered on
   arbitrary input. This is a robustness guard for Go's slice semantics — preserve it across syncs
   rather than reconciling it away.
-- **Clamped leading-zero allocation in `GetNationalSignificantNumber`** — the leading-zero count
-  is taken from the `PhoneNumber.NumberOfLeadingZeros` field, which is an unbounded `int32` when a
-  message is populated from outside `Parse`. We clamp it to `maxLengthForNSN` before allocating,
-  since a national significant number cannot have more leading zeros than its maximum length. This
-  is a robustness guard on the allocation size — preserve it across syncs.
 - **Supplementary-plane digit normalization** — `internal/character.Digit` stands in for Java's
   `Character.digit(c, 10)` and matches it exactly across the BMP, but also converts
   supplementary-plane decimal digits (e.g. Adlam, Osmanya, mathematical digits), which Java's

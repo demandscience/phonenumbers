@@ -472,6 +472,21 @@ func TestFormatUSNumber(t *testing.T) {
 	assert.Equal(t, "0", Format(usSpoof(), NATIONAL))
 }
 
+func TestFormatAUShortCodeNumber(t *testing.T) {
+	useTestMetadata(t)
+
+	auShortCodeNumber, err := Parse("000", "AU")
+	assert.NoError(t, err)
+	assert.Equal(t, "+61000", Format(auShortCodeNumber, E164))
+
+	pgShortCodeNumber := &PhoneNumber{
+		CountryCode:    proto.Int32(675),
+		NationalNumber: proto.Uint64(0),
+		RawInput:       proto.String("+675000"),
+	}
+	assert.Equal(t, "+675000", Format(pgShortCodeNumber, E164))
+}
+
 func TestFormatBSNumber(t *testing.T) {
 	useTestMetadata(t)
 
