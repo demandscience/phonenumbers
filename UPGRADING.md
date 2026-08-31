@@ -32,8 +32,9 @@ go get github.com/nyaruka/phonenumbers/v2@v2.0.0
 ```
 
 The package name is still `phonenumbers`, so unqualified references (`phonenumbers.Parse`, …)
-don't change — only the import path does. The minimum Go version is now **1.24** (was 1.23),
-largely because the matcher API uses range-over-func iterators (`iter.Seq`).
+don't change — only the import path does. `v2.0.0` also raised the minimum Go version above
+1.x's 1.23, largely because the matcher API uses range-over-func iterators (`iter.Seq`). It has
+risen further since — see the `go` directive in [`go.mod`](go.mod) for what's required now.
 
 ---
 
@@ -229,7 +230,7 @@ upstream:
 ## Migration checklist
 
 1. Update the import path to `.../v2` and run `go get github.com/nyaruka/phonenumbers/v2@v2.0.0`.
-2. Ensure your toolchain is Go 1.24+.
+2. Ensure your toolchain meets the `go` directive in [`go.mod`](go.mod).
 3. Move carrier/geocoding/timezone calls to the new subpackages and rename them (§2).
 4. Replace any `NewPhoneNumberMatcher` usage with the `FindNumbers` iterators (§3).
 5. Replace `GetExampleNumberForType(region, type)` with `GetExampleNumberForTypeInRegion` (§4).
