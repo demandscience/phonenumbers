@@ -336,7 +336,7 @@ func matchesEmergencyNumber(number string, regionCode string, allowPrefixMatch b
 	// Returns false if the number starts with a plus sign. We don't believe dialing the country
 	// code before emergency numbers (e.g. +1911) works, but later, if that proves to work, we can
 	// add additional logic here to handle it.
-	if plusCharsPattern.MatchString(possibleNumber) {
+	if ind := plusCharsPattern.FindStringIndex(possibleNumber); ind != nil && ind[0] == 0 { // Strictly match from string start
 		return false
 	}
 
