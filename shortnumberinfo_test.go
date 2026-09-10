@@ -198,6 +198,25 @@ func TestConnectsToEmergencyNumberWithPlusSign_US(t *testing.T) {
 	assert.False(t, ConnectsToEmergencyNumber("+999", "US"))
 }
 
+// Upstream rejects only a LEADING plus (PLUS_CHARS_PATTERN.lookingAt), so a plus
+// elsewhere in the dialled string is formatting, as in the "9-1-1" case above.
+func TestConnectsToEmergencyNumberWithEmbeddedPlusSign_US(t *testing.T) {
+	assert.True(t, ConnectsToEmergencyNumber("9+11", "US"))
+	assert.True(t, ConnectsToEmergencyNumber("1+12", "US"))
+	assert.True(t, IsEmergencyNumber("9+11", "US"))
+	assert.True(t, IsEmergencyNumber("11+2", "US"))
+
+	// A leading plus must still be rejected.
+	assert.False(t, ConnectsToEmergencyNumber("+911", "US"))
+	assert.False(t, ConnectsToEmergencyNumber("\uFF0B911", "US"))
+	assert.False(t, ConnectsToEmergencyNumber(" +911", "US"))
+	assert.False(t, IsEmergencyNumber("+112", "US"))
+
+	// A non-emergency number stays non-emergency, with or without the plus.
+	assert.False(t, ConnectsToEmergencyNumber("9+99", "US"))
+	assert.False(t, ConnectsToEmergencyNumber("999", "US"))
+}
+
 func TestConnectsToEmergencyNumber_BR(t *testing.T) {
 	assert.True(t, ConnectsToEmergencyNumber("190", "BR"))
 	assert.True(t, ConnectsToEmergencyNumber("911", "BR"))
