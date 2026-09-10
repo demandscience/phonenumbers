@@ -1,3 +1,7 @@
+v2.0.12 (2026-09-10)
+-------------------------
+ * Only reject a leading plus sign when matching emergency numbers
+
 v2.0.11 (2026-08-31)
 -------------------------
  * Bump supported go versions
