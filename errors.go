@@ -4,7 +4,7 @@ package phonenumbers
 import (
 	"errors"
 
-	"github.com/nyaruka/phonenumbers/v2/metadata"
+	"github.com/demandscience/phonenumbers/v2/metadata"
 )
 
 // ErrEmptyMetadata is an alias for metadata.ErrEmptyMetadata, kept here for

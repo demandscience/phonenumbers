@@ -8,8 +8,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/nyaruka/phonenumbers/v2"
-	"github.com/nyaruka/phonenumbers/v2/internal/serialize"
+	"github.com/demandscience/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2/internal/serialize"
 )
 
 //go:embed data/prefix_to_timezone.xml.gz
