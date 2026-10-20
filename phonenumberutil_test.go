@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nyaruka/phonenumbers/v2/internal/stringbuilder"
+	"github.com/demandscience/phonenumbers/v2/internal/stringbuilder"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"

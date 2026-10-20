@@ -4,7 +4,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/nyaruka/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2"
 )
 
 func TestGetNameForNumber(t *testing.T) {
