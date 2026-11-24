@@ -5,8 +5,8 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/nyaruka/phonenumbers/v2/internal/regexbasedmatcher"
-	"github.com/nyaruka/phonenumbers/v2/internal/serialize"
+	"github.com/demandscience/phonenumbers/v2/internal/regexbasedmatcher"
+	"github.com/demandscience/phonenumbers/v2/internal/serialize"
 	"google.golang.org/protobuf/proto"
 )
 

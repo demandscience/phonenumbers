@@ -4,8 +4,8 @@ package carrier
 import (
 	"embed"
 
-	"github.com/nyaruka/phonenumbers/v2"
-	"github.com/nyaruka/phonenumbers/v2/internal/prefixmapper"
+	"github.com/demandscience/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2/internal/prefixmapper"
 )
 
 //go:embed data/*.gz

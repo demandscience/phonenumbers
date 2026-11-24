@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/nyaruka/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2"
 )
 
 func main() {

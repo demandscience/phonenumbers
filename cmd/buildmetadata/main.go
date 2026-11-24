@@ -15,8 +15,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nyaruka/phonenumbers/v2"
-	"github.com/nyaruka/phonenumbers/v2/internal/metadatabuilder"
+	"github.com/demandscience/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2/internal/metadatabuilder"
 	"google.golang.org/protobuf/proto"
 )
 

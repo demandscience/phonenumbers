@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nyaruka/phonenumbers/v2"
+	"github.com/demandscience/phonenumbers/v2"
 )
 
 type timeZonesTestCases struct {
